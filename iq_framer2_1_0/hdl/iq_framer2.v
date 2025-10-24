@@ -8,7 +8,6 @@
 		// User parameters ends
 		// Do not modify the parameters beyond this line
 
-
 		// Parameters of Axi Slave Bus Interface S01_AXIS
 		parameter integer C_S01_AXIS_TDATA_WIDTH	= 32,
 
@@ -21,7 +20,6 @@
 	)
 	(
 		// Users to add ports here
-		
 
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -64,13 +62,13 @@
 	
 	assign m00_axis_tlast=(control[3]==1)? small_counter==65535:big_counter==262143;
 	assign m00_axis_tdata = control==1?{small_counter, small_counter}:control==3?{big_counter, big_counter}:{s01_axis_tdata, s00_axis_tdata};
-	assign m00_axis_tvalid = 1;
+	assign m00_axis_tvalid = s00_axis_tvalid && m00_axis_tvalid;
 	assign m00_axis_tstrb = 4'b1111;
 	
 
 	always @(posedge s00_axis_aclk)begin
 	
-	   if(m00_axis_tready) begin
+	   if(m00_axis_tready && m00_axis_tvalid) begin
 	       small_counter<=(small_counter==65535)? 0:small_counter+1;
 	       big_counter<=(big_counter==262143)? 0:big_counter+1;
 	   end
