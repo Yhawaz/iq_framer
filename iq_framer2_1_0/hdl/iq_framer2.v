@@ -31,6 +31,7 @@
 		output wire  s01_axis_tready,
 		input wire [C_S01_AXIS_TDATA_WIDTH/2-1 : 0] s01_axis_tdata,
 		input wire [(C_S01_AXIS_TDATA_WIDTH/8)-1 : 0] s01_axis_tstrb,
+		
 		input wire  s01_axis_tlast,
 		input wire  s01_axis_tvalid,
 
@@ -62,7 +63,7 @@
 	
 	assign m00_axis_tlast=(control[3]==1)? small_counter==65535:big_counter==262143;
 	assign m00_axis_tdata = control==1?{small_counter, small_counter}:control==3?{big_counter, big_counter}:{s01_axis_tdata, s00_axis_tdata};
-	assign m00_axis_tvalid = s00_axis_tvalid && m00_axis_tvalid;
+	assign m00_axis_tvalid = s00_axis_tvalid ;
 	assign m00_axis_tstrb = 4'b1111;
 	
 
